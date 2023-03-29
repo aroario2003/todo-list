@@ -1,12 +1,12 @@
 # todo-list
 
 |       GUI       |
-|-----------------|
+| --------------- |
 | + start(): void |
 
 | <<enumeration>> |
 | ItemState       |
-|-----------------|
+| --------------- |
 | Done            |
 | Incomplete      |
 | Overdue         |
@@ -17,7 +17,7 @@
 | - name: String                                      |
 | - done: String                                      |
 | - itemState: ItemState                              |
-|-----------------------------------------------------|
+| --------------------------------------------------- |
 | + Item()                                            |
 | + Item(name:String)                                 |
 | + Item(name:String, done:String)                    |
@@ -29,19 +29,19 @@
 | + toString(): String                                |
 
 |                 Main                  |
-|---------------------------------------|
+| ------------------------------------- |
 | + startGUI(): void                    |
 | + addDueDate(date:LocalDate): boolean |
 | + makeTodoList(name:String): TodoList |
 | + main(args:String[]): void           |
 
 |                         Config                          |
-|---------------------------------------------------------|
+| ------------------------------------------------------- |
 | - final EMAIL: String                                   |
 | - final PASSWORD: String                                |
 | - final CARRIER: String                                 |
 | - final PORT: String                                    |
-|---------------------------------------------------------|
+| ------------------------------------------------------- |
 | + Config(email:String, password:String, carrier:String) |
 | + getOS(): String                                       |
 | + writeDefaultConfig(): void                            |
@@ -51,11 +51,11 @@
 | + configue(): void                                      |
 
 |               TodoList               |
-|--------------------------------------|
+| ------------------------------------ |
 | - list: ArrayList<Item>              |
 | - path: String                       |
 | - name: String                       |
-|--------------------------------------|
+| ------------------------------------ |
 | + TodoList()                         |
 | + TodoList(name:String)              |
 | + TodoList(name:String, path:String) |
