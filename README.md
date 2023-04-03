@@ -1,6 +1,4 @@
-<div align="center">
 # todo-list
-</div>
 
 # What is this?
  
