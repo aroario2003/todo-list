@@ -1,4 +1,12 @@
+# Intellij files 
 .idea
+
+# maven specific files
+.classpath
+.project
+target
+.settings
+
 # Compiled class file
 *.class
 
