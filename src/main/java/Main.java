@@ -18,7 +18,7 @@ public class Main {
 
 
     /**
-     * This method will call TodoList.create()
+     * This method will call TodoList.createTodoList()
      *
      * @return the TodoList created
      */

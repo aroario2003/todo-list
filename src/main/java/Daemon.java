@@ -7,7 +7,9 @@ import java.util.Date;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
+import java.io.IOException;
 import java.awt.Toolkit;
+import java.awt.AWTException;
 import java.awt.Image;
 
 import javax.mail.Authenticator;
@@ -34,8 +36,6 @@ import javax.mail.internet.MimeMultipart;
  * @version CPSC 240
  */
 public class Daemon {
-
-    private Config config;
 
     /**
      * The constructor does nothing because it is not neccessary, however in order to declare instances  
@@ -64,7 +64,11 @@ public class Daemon {
                 "todo-gui Reminder",
                 "The item " + item.getName() + " is due on " + item.getDueDate()
             );
-            process.inheritIO().start();
+            try {
+                process.inheritIO().start();
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
         } else if (os.contains("Mac")) {
             ProcessBuilder process = new ProcessBuilder(
                 "osascript", "-e", 
@@ -85,7 +89,11 @@ public class Daemon {
         TrayIcon trayIcon = new TrayIcon(image, "todo-gui");
         trayIcon.setImageAutoSize(true);
         trayIcon.setToolTip("todo-gui");
-        tray.add(trayIcon);
+        try {
+            tray.add(trayIcon);
+        } catch(AWTException e) {
+            e.printStackTrace();
+        } 
         trayIcon.displayMessage(
                 "todo-gui Reminder", 
                 "The item " + item.getName() + " is due on " + item.getDueDate(), 

@@ -27,7 +27,7 @@ public class TodoList {
      * @param name the name of the todolist to create
      */
     public TodoList(String name) {
-
+        this.name = name;
     }
 
     /**
@@ -59,7 +59,7 @@ public class TodoList {
     /**
      * This method will create a empty todo list in the todo list directory
      */
-    public void create() {
+    public void createTodoList() {
 
     }
     
