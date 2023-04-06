@@ -187,6 +187,11 @@ public class Config {
        return configJson;
     } 
 
+    /**
+     * Gets the hashmap which is returned from parseUserConfig()
+     *
+     * @return the resulting hashmap from parseUserConfig()
+     */
     public static HashMap<String, String> getUserConfigMap() {
         Config conf = new Config(false);
         return conf.parseUserConfig();
