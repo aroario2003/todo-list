@@ -28,6 +28,7 @@ public class Config {
     private final String CONFIGNAME = "config.json";
     private String phoneNumber;
     private Path configPath;
+    private String interval;
 
     /**
      * The constructor to either parse the existing user config or make a default config as an example
@@ -195,6 +196,20 @@ public class Config {
     public static HashMap<String, String> getUserConfigMap() {
         Config conf = new Config(false);
         return conf.parseUserConfig();
+    }
+
+    /**
+     * This method will take take the interval which the user puts into the 
+     * config.json file and parse it into a format which is usable in the Code
+     * such as if the user puts 2m than the method will do calculations to get
+     * 2 minutes in miliseconds. Options for the interval config option include:
+     * s m h d w M y.
+     *
+     * @return the new integer which represents the amount of miliseconds to wait before
+     * running the daemon again
+     */
+    public int calculateInterval() {
+        
     }
 
     /**
