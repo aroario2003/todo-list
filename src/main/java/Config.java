@@ -72,12 +72,21 @@ public class Config {
 
     /**
      * This method will determine which path should be used to store the 
-     * config.json file based on the os which the user is on.
+     * config.json file based on the os which the user is on. If the path 
+     * or config file do not exists it will create them.
     */
     public void determineUserConfigPath() {
         String os = getOS();
         if (os.contains("Windows")) {
-            this.configPath = Paths.get("%PROGRAMDATA%/todo-list/config/" + this.CONFIGNAME);
+            String configDirStr = "C:\\%PROGRAMDATA%\\todo-list\\config\\"; 
+            File configDir = new File(configDirStr); 
+            if (!configDir.exists()) {
+                configDir.mkdirs();
+            }
+            this.configPath = Paths.get(configDirStr + this.CONFIGNAME);
+            if (!this.configPath.toFile().exists()) {
+                this.configPath.toFile().createNewFile();
+            }
         } else if (os.contains("Linux")) {
             String home = System.getProperty("user.home");
             File configDir = new File(home + "/.config/todo-list");
