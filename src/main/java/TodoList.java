@@ -1,6 +1,7 @@
 package com.project.todolist;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /** 
  * This class represents what a todolist is and how it works
@@ -18,6 +19,9 @@ public class TodoList {
      * Constructor for when no name is given, name will be randomly generated
      */
     public TodoList() {
+        Random r = new Random();
+        int randId = r.nextInt(100,999);
+        this.name = "user-"+randId;
 
     }
 
