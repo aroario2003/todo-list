@@ -1,5 +1,6 @@
 package com.project.todolist;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -19,10 +20,7 @@ public class TodoList {
      * Constructor for when no name is given, name will be randomly generated
      */
     public TodoList() {
-        Random r = new Random();
-        int randId = r.nextInt(100,999);
-        this.name = "user-"+randId;
-
+        this.name = generateRandName();
     }
 
     /**
@@ -74,7 +72,11 @@ public class TodoList {
      * @return the string which is the random set of characters that gets appended to the name of the todo list
      */
     public String generateRandName() {
-        return "blah";
+        byte[] bytesArr = new byte[5];
+        new Random().nextBytes(bytesArr);
+        String randId = new String(bytesArr, Charset.forName("UTF-8"));
+        this.name = "todo-" + randId;
+        return this.name;
     }
 
 }
