@@ -16,42 +16,23 @@ public class Item {
     private ItemState itemState;
 
     /**
-     * Constructor for when only name is given
-     *
-     * @param name the name of the Item
-     */
-    public Item(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Constructor for when only name and the current itemstate are given
-     *
-     * @param name the naem of the item
-     * @param done the state of the item
-     */
-    public Item(String name, String done) {
-        this.name = name;
-        this.done = done;
-    }
-
-    /**
      * Constructor for when all item fields are given
      *
      * @param name the name of the item 
      * @param done the current ItemState 
      * @param dueDate the due date of the item 
      */
-    public Item(String name, String done, LocalDate dueDate) {
+    public Item(String name, LocalDate dueDate) {
         this.name = name;
-        this.done = done;
         this.dueDate = dueDate;
+        this.itemState = ItemState.Done;
     }
 
     /**
      * This method will mark an item as done 
      */
     public void markAsDone() {
+        this.done = "";
 
     }
 
@@ -59,29 +40,27 @@ public class Item {
      * This method will mark an item as incomplete
      */
     public void markAsIncomplete() {
-
+        this.done = "";
     }
 
     /**
      * This method will mark an item as overdue
      */
     public void markAsOverdue() {
-
+        this.done = "󰃰";
     }   
 
     /** 
      * This method will set the item state based on whether it is done, incomplete or overdue
      */
     public void setItemState() {
-
-    }
-
-    /**
-     * This method will give the user a list of items to add a due date to and
-     * allow them to select one and will ask for teh due date and will append it to the item
-     */
-    public void addDueDate() {
-
+        if (this.done.equals("")) {
+            this.itemState = ItemState.Done;
+        } else if (this.done.equals("")) {
+            this.itemState = ItemState.Incomplete;
+        } else if (this.done.equals("󰃰")) {
+            this.itemState = ItemState.Overdue;
+        }
     }
 
     /**
@@ -103,12 +82,22 @@ public class Item {
     }
 
     /**
+     * This method check is an item is due or not
+     *
+     * @return a boolean representing whether or not an item is due
+     */
+    public boolean isDue() {
+        return this.dueDate.equals(LocalDate.now()) || this.dueDate.isBefore(LocalDate.now());
+    }
+
+
+    /**
      * This method converts Item to a string so that it can be written to todo list file
      *
      * @return the string which corresponds to the current Item
      */
     public String toString() {
-        return this.done + " " + this.name + "\n" + this.dueDate;
+        return this.done + " " + this.name + " " + this.dueDate;
     }
 
 }
