@@ -24,7 +24,7 @@ public class Config {
     private final String EMAIL;
     private final String PASSWORD;
     private final String CARRIER;
-    private final String PORT = "465";
+    private final String PORT = "587";
     private final String CONFIGNAME = "config.json";
     private String phoneNumber;
     private Path configPath;
@@ -85,7 +85,13 @@ public class Config {
             }
             this.configPath = Paths.get(configDirStr + this.CONFIGNAME);
             if (!this.configPath.toFile().exists()) {
-                this.configPath.toFile().createNewFile();
+                try {
+                    this.configPath.toFile().createNewFile();
+                    writeDefaultConfig();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.exit(1);
+                }
             }
         } else if (os.contains("Linux")) {
             String home = System.getProperty("user.home");
@@ -97,6 +103,7 @@ public class Config {
             if (!this.configPath.toFile().exists()) {
                 try {
                     this.configPath.toFile().createNewFile();
+                    writeDefaultConfig();
                 } catch (IOException e) {
                     System.out.println("Oops something went wrong creating the config file!");
                     System.exit(1);
