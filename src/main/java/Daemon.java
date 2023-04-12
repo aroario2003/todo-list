@@ -37,17 +37,13 @@ import javax.mail.internet.MimeMultipart;
  */
 public class Daemon {
     
-    private Config config;
-
     /**
      * The constructor takes in a config in order order to be able to get the user
      * specified interval
      *
      * @param config the config to use to run the daemon
      */
-    public Daemon(Config config) {
-       this.config = config; 
-    }
+    public Daemon() {}
    
     /**
      * This method will spawn a thread and fork it into the background to check for due items on 

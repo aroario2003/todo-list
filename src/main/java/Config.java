@@ -224,9 +224,9 @@ public class Config {
      * @return the new integer which represents the amount of miliseconds to wait before
      * running the daemon again
      */
-    public int calculateInterval() {
+    /* public int calculateInterval() {
         
-    }
+   } */
 
     /**
      * This method will write the config json string to the config.json file

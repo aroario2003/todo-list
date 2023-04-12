@@ -6,6 +6,9 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
+
+import java.time.LocalDate;
+
 import org.apache.commons.cli.CommandLine;
 
 /**
@@ -53,7 +56,7 @@ public class Main {
 
         if (cmd.hasOption(daemon)) {
             Daemon d = new Daemon();
-            Item item = new Item("test");
+            Item item = new Item("test", LocalDate.parse("2023-04-12"));
             d.sendMessage(item);
             d.sendNotification(item);
         } else if (cmd.hasOption(gui)) {
