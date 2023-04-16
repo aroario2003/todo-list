@@ -3,6 +3,11 @@ package com.project.todolist;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.Date;
+import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.time.LocalDate;
 
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
@@ -38,10 +43,7 @@ import javax.mail.internet.MimeMultipart;
 public class Daemon {
     
     /**
-     * The constructor takes in a config in order order to be able to get the user
-     * specified interval
-     *
-     * @param config the config to use to run the daemon
+     * The constructor takes initializes a daemon object but nothing else
      */
     public Daemon() {}
    
@@ -50,7 +52,16 @@ public class Daemon {
      * a specified interval
      */
     public void daemon() {
-
+      ScheduledExecutorService daemon = Executors.newScheduledThreadPool(1); 
+      DaemonTask daemonTask = new DaemonTask();
+      Config conf = new Config(false);
+      int interval = conf.calculateInterval();
+      if (interval > 0) {
+          daemon.scheduleAtFixedRate(daemonTask, 5, interval, TimeUnit.SECONDS);
+      } else {
+        System.out.println("Invalid interval unit, the supported units are s m h d w, please fix your interval and try again");
+        System.exit(1);
+      }
     }
 
     /**
@@ -58,7 +69,7 @@ public class Daemon {
      *
      * @param item the item to send the notification about
      */
-    public synchronized void sendNotification(Item item) {
+    public void sendNotification(Item item) {
         String os = System.getProperty("os.name");
         if (os.contains("Linux")) {
             ProcessBuilder process = new ProcessBuilder(
@@ -98,7 +109,7 @@ public class Daemon {
         } 
         trayIcon.displayMessage(
                 "todo-gui Reminder", 
-                "The item " + item.getName() + " is due on " + item.getDueDate(), 
+                "The item " + item.getName() + " is/was due on " + item.getDueDate(), 
                 MessageType.INFO
             );
         } else {
@@ -112,7 +123,7 @@ public class Daemon {
      *
      * @param item the item to send the message about
      */
-    public synchronized void sendMessage(Item item) {
+    public void sendMessage(Item item) {
         Config conf = new Config(false);
         HashMap<String, String> userConfig =  Config.getUserConfigMap();
         Properties props = new Properties();
@@ -139,12 +150,13 @@ public class Daemon {
             msg.setFrom(new InternetAddress(userConfig.get("email"), "todo-gui"));
             msg.setReplyTo(InternetAddress.parse(userConfig.get("email"), false));
             msg.setSubject("todo-gui reminder", "UTF-8");
-            msg.setText("Some item is due", "UTF-8");
+            msg.setText("The item " + item.getName() + " is/was due on " + item.getDueDate(), "UTF-8");
             msg.setSentDate(new Date());
             msg.setRecipients(
                 Message.RecipientType.TO, 
                 InternetAddress.parse(
-                    userConfig.get("phonenumber") + "@" + conf.determineCarrierExtension(userConfig.get("carrier")), 
+                    userConfig.get("phonenumber") + "@" 
+                    + conf.determineCarrierExtension(userConfig.get("carrier")), 
                     false
                 )
             );
@@ -154,6 +166,18 @@ public class Daemon {
             System.out.println("Error sending reminder message");
             e.printStackTrace();
             System.exit(1);
+        }
+    }
+}
+
+class DaemonTask implements Runnable {
+    @Override
+    public void run() {
+        Daemon d = new Daemon();
+        ArrayList<Item> dueItems = TodoList.getDueItems();
+        for (Item item : dueItems) {
+            d.sendNotification(item);
+            d.sendMessage(item);
         }
     }
 }

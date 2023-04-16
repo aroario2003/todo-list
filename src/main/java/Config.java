@@ -1,6 +1,9 @@
 package com.project.todolist;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -28,7 +31,7 @@ public class Config {
     private final String CONFIGNAME = "config.json";
     private String phoneNumber;
     private Path configPath;
-    private String interval;
+    private String interval = "1d";
 
     /**
      * The constructor to either parse the existing user config or make a default config as an example
@@ -52,12 +55,14 @@ public class Config {
      * @param password the app specific password that the user would like to use to use gmail with SMTP
      * @param carrier the carrier which the user uses on their mobile phone
      * @param phoneNumber the phone number to send the message to 
+     * @param interval the interval to send notifications and messages at
      */
-    public Config(String email, String password, String carrier, String phoneNumber) {
+    public Config(String email, String password, String carrier, String phoneNumber, String interval) {
         EMAIL = email;
         PASSWORD = password;
         CARRIER = carrier;
         this.phoneNumber = phoneNumber;
+        this.interval = interval;
     }
 
     /**
@@ -127,6 +132,7 @@ public class Config {
         defaultConfig.put("carrier", "somecarrier");
         defaultConfig.put("port", this.PORT);
         defaultConfig.put("phonenumber", "1111111111");
+        defaultConfig.put("interval", this.interval);
         return defaultConfig;
     }
 
@@ -152,6 +158,7 @@ public class Config {
         config.put("carrier", this.CARRIER);
         config.put("port", this.PORT);
         config.put("phonenumber", this.phoneNumber);
+        config.put("interval", this.interval);
         return config;
     }
 
@@ -219,17 +226,36 @@ public class Config {
      * config.json file and parse it into a format which is usable in the Code
      * such as if the user puts 2m than the method will do calculations to get
      * 2 minutes in miliseconds. Options for the interval config option include:
-     * s m h d w M y.
+     * s m h d w 
      *
      * @return the new integer which represents the amount of miliseconds to wait before
      * running the daemon again
      */
-    /* public int calculateInterval() {
-        
-   } */
+    public int calculateInterval() {
+       HashMap<String, String> config = getUserConfigMap();
+       String interval = config.get("interval");
+       Pattern re = Pattern.compile("(\\d+)");
+       Matcher m = re.matcher(interval);
+       if (m.find()) {
+           if (interval.contains("s")) {
+              return Integer.parseInt(m.group(0)); 
+           } else if (interval.contains("m")) {
+               return Integer.parseInt(m.group(0)) * 60;
+           } else if (interval.contains("h")) {
+                return Integer.parseInt(m.group(0)) * 3600;
+           } else if (interval.contains("d")) {
+               return Integer.parseInt(m.group(0)) * 86400;
+           } else if (interval.contains("w")) {
+               return Integer.parseInt(m.group(0)) + 604800;  
+           }    
+        }
+       return -1;
+    }
 
     /**
      * This method will write the config json string to the config.json file
+     *
+     * @param json the json string to write to the config.json file
      */
     public void configure(String json) {
        determineUserConfigPath(); 

@@ -19,7 +19,6 @@ public class Item {
      * Constructor for when all item fields are given
      *
      * @param name the name of the item 
-     * @param done the current ItemState 
      * @param dueDate the due date of the item 
      */
     public Item(String name, LocalDate dueDate) {
@@ -49,6 +48,15 @@ public class Item {
     public void markAsOverdue() {
         this.done = "󰃰";
     }   
+
+    /**
+     * This mehtod allows for the symbol to be set for the item
+     *
+     * @param symbol the symbol to use to mark the item
+     */
+    public void markWith(String symbol) {
+        this.done = symbol;
+    }
 
     /** 
      * This method will set the item state based on whether it is done, incomplete or overdue
@@ -97,7 +105,7 @@ public class Item {
      * @return the string which corresponds to the current Item
      */
     public String toString() {
-        return this.done + " " + this.name + " " + this.dueDate;
+        return this.done + "     " + this.name + "     " + this.dueDate;
     }
 
 }
