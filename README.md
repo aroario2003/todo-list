@@ -96,13 +96,13 @@ If you are running intellij, it will pull up the file in a browser with the file
 |---------------------------------------|-------------------------------------------------------------------------------|
 | -d                                    | Start the background process to send notifications when an item is due        |
 | -g                                    | Start the Graphical user interface for the program                            |
-| -c <todo-list-name>                   | Create a todo list with the corresponding name                                |
+| -c list-name                          | Create a todo list with the corresponding name                                |
 | -C                                    | Create a todo list with a random name                                         |
-| -D <list-name> <item-name>            | Delete a todo item from the specified todo list                               |
-| -a <list-name> <item-name> <due-date> | Add a todo item to the corresponding todo list                                |
-| -md <list-name> <item-name>           | Mark an item as done in a todo list                                           |
-| -mo <list-name> <item-name>           | Mark an item as overdue in a todo list                                        |
-| -mi <list-name> <item-name>           | Mark an item as incomplete in a todo list                                     |
+| -D list-name item-name                | Delete a todo item from the specified todo list                               |
+| -a list-name item-name due-date       | Add a todo item to the corresponding todo list                                |
+| -md list-name item-name               | Mark an item as done in a todo list                                           |
+| -mo list-name item-name               | Mark an item as overdue in a todo list                                        |
+| -mi list-name item-name               | Mark an item as incomplete in a todo list                                     |
 | -h                                    | Print the help menu                                                           |
 
 # License
