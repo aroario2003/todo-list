@@ -1,5 +1,4 @@
 package com.project.todolist;
-
 import java.time.LocalDate;
 
 /**
@@ -13,7 +12,7 @@ public class Item {
     private LocalDate dueDate;
     private String name;
     private String done;
-    private ItemState itemState;
+    private com.project.todolist.ItemState itemState;
 
     /**
      * Constructor for when all item fields are given
@@ -24,7 +23,7 @@ public class Item {
     public Item(String name, LocalDate dueDate) {
         this.name = name;
         this.dueDate = dueDate;
-        this.itemState = ItemState.Done;
+        this.itemState = com.project.todolist.ItemState.Done;
     }
 
     /**
@@ -63,11 +62,11 @@ public class Item {
      */
     public void setItemState() {
         if (this.done.equals("")) {
-            this.itemState = ItemState.Done;
+            this.itemState = com.project.todolist.ItemState.Done;
         } else if (this.done.equals("")) {
-            this.itemState = ItemState.Incomplete;
+            this.itemState = com.project.todolist.ItemState.Incomplete;
         } else if (this.done.equals("󰃰")) {
-            this.itemState = ItemState.Overdue;
+            this.itemState = com.project.todolist.ItemState.Overdue;
         }
     }
 
