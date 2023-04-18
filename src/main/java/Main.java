@@ -77,7 +77,8 @@ public class Main {
             Daemon d = new Daemon();
             d.daemon();
         } else if (cmd.hasOption(gui)) {
-            System.out.println("This will start the gui");
+            GUI g = new GUI();
+            g.start();
         } else if (cmd.hasOption(addItem)) {
             String[] opts = cmd.getOptionValues("a");
             System.out.println(opts[0]);

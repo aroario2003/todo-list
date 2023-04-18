@@ -300,6 +300,41 @@ public class TodoList {
            throw new FileNotFoundException("The todolist you specified does not exist in any paths being searched");
        }
     } 
+
+    /**
+     * This method will get all the items in a todolist
+     *
+     * @return the list of items in the specified todolist
+     */
+    public List<Item> getItems() {
+        List<Item> itemsList = readFromFile();
+        return itemsList;
+    }
+
+    /**
+     * This method will walk the directory where all todolists must be stored and 
+     * get all of the names
+     *
+     * @return the ArrayList of names of the todolists in the todolist directory
+     */
+    public static ArrayList<String> getTodoLists() {
+        String homeDir = System.getProperty("user.home");
+        String path = homeDir + "/.local/share/todolists/";
+        ArrayList<String> todoListNames = new ArrayList<>();
+        File todoListPath = new File(path);
+        File[] todoLists = todoListPath.listFiles();
+        if (todoLists != null) {
+            for (File todoList : todoLists) {
+                if (todoList.isFile()) {
+                    String[] todoListNameParts = todoList.getName().toString().split("-");
+                    String[] todoListNameAndExt = todoListNameParts[1].split("\\.");
+                    String todoListName = todoListNameAndExt[0];
+                    todoListNames.add(todoListName);
+                }
+            }
+        }
+        return todoListNames;
+    }
     
     /**
      * This method will generate a random string of characters to append to
