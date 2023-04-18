@@ -12,7 +12,7 @@ public class Item {
     private LocalDate dueDate;
     private String name;
     private String done;
-    private com.project.todolist.ItemState itemState;
+    private ItemState itemState;
 
     /**
      * Constructor for when all item fields are given
@@ -23,7 +23,7 @@ public class Item {
     public Item(String name, LocalDate dueDate) {
         this.name = name;
         this.dueDate = dueDate;
-        this.itemState = com.project.todolist.ItemState.Done;
+        this.itemState = ItemState.Done;
     }
 
     /**
@@ -62,11 +62,11 @@ public class Item {
      */
     public void setItemState() {
         if (this.done.equals("")) {
-            this.itemState = com.project.todolist.ItemState.Done;
+            this.itemState = ItemState.Done;
         } else if (this.done.equals("")) {
-            this.itemState = com.project.todolist.ItemState.Incomplete;
+            this.itemState = ItemState.Incomplete;
         } else if (this.done.equals("󰃰")) {
-            this.itemState = com.project.todolist.ItemState.Overdue;
+            this.itemState = ItemState.Overdue;
         }
     }
 
