@@ -134,9 +134,9 @@ public class GUI {
                            @Override
                            public void actionPerformed(ActionEvent e) {
                                 Item it = new Item(nameField.getText(), LocalDate.parse(itemDueDateField.getText()));
+                                itemsListModel.addElement(it);
                                 it.markAsIncomplete();
                                 selList.addItem(it);
-                                itemsListModel.addElement(it);
                                 addItemWin.dispatchEvent(new WindowEvent(addItemWin, WindowEvent.WINDOW_CLOSING));
                                }
                             });
@@ -173,9 +173,8 @@ public class GUI {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         Item item = itemsGlist.getSelectedValue();
-                        selList.removeItem(item);
-                        selList.writeToFile();
                         itemsListModel.removeElement(item);
+                        selList.removeItem(item);
                     }
                 });
 

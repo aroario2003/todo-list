@@ -132,6 +132,7 @@ public class TodoList {
         try {
             PrintWriter out = new PrintWriter(todoList);
             out.write("");
+            out.flush();
             for (Item i : this.list) {
                 out.println(i.toString());
             }
@@ -150,6 +151,7 @@ public class TodoList {
     public List<Item> readFromFile() {
         String filePath = this.path + "todo-" + this.name + ".txt";
         File todoList = new File(filePath);
+        this.list.clear();
         try {
             Scanner in = new Scanner(todoList);  
             while (in.hasNext()) {
@@ -269,10 +271,12 @@ public class TodoList {
      */
     public void removeItem(Item item) {
         this.list = readFromFile();
-        this.list = this.list
-            .stream()
-            .filter(it -> !it.getName().equals(item.getName()))
-            .collect(Collectors.toList());
+        for (int i = 0; i < this.list.size(); i++) {
+            Item it = this.list.get(i);
+            if (it.getName().equals(item.getName())) {
+                this.list.remove(it);
+            }
+        }
         writeToFile();
     }
 
