@@ -167,7 +167,9 @@ public class Daemon {
             
             Transport.send(msg);
         } catch (Exception e) {
-            System.out.println("Error sending reminder message");
+            System.out.println(
+                "Error sending reminder message, you most likely have inaccurate information in the config file or you have not modified the default config"
+            );
             e.printStackTrace();
             System.exit(1);
         }
