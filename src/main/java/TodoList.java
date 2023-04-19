@@ -326,7 +326,7 @@ public class TodoList {
         String os = System.getProperty("os.name");
         String homeDir = System.getProperty("user.home");
         
-        String path;
+        String path = "";
         
         if (os.contains("Linux")) {
             path = homeDir + "/.local/share/todolists/";
