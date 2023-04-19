@@ -20,6 +20,10 @@ import java.nio.file.Files;
  * make SMTP and IMAP work
  *
  * @author Alejandro Rosario
+ * @author Victor Rahman
+ * @author Sonia Vetter
+ * @author Nora Peters
+ *
  * @version CPSC 240
  */
 public class Config {

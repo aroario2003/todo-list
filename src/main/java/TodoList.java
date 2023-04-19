@@ -4,6 +4,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 import java.util.Random;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,6 +16,10 @@ import java.time.LocalDate;
  * This class represents what a todolist is and how it works
  *
  * @author Alejandro Rosario
+ * @author Victor Rahman
+ * @author Sonia Vetter
+ * @author Nora Peters
+ *
  * @version CPSC 240
  */
 public class TodoList {
@@ -49,7 +54,7 @@ public class TodoList {
                 }
             }
         } else if (os.contains("Windows")) {
-          this.path = "C:\\%PROGRAMDATA\\todo-list\\todos\\";  
+          this.path = "C:\\%PROGRAMDATA%\\todo-list\\todos\\";  
           File todoPath = new File(this.path);
           if (!todoPath.exists()) {
               todoPath.mkdirs();
@@ -98,12 +103,12 @@ public class TodoList {
                 }
             }
         } else if (os.contains("Windows")) {
-          this.path = "C:\\%PROGRAMDATA\\todo-list\\todos\\";  
+          this.path = "C:\\%PROGRAMDATA%\\todo-list\\todos\\";  
           File todoPath = new File(this.path);
           if (!todoPath.exists()) {
               todoPath.mkdirs();
           }
-          String todoListFile = this.path + this.name + ".txt";
+          String todoListFile = this.path + "todo-" + this.name + ".txt";
           File todoList = new File(todoListFile);
           if (!todoList.exists()) {
               try {
@@ -127,7 +132,7 @@ public class TodoList {
         try {
             PrintWriter out = new PrintWriter(todoList);
             out.write("");
-            for (Item i : list) {
+            for (Item i : this.list) {
                 out.println(i.toString());
             }
             out.flush();
@@ -206,7 +211,7 @@ public class TodoList {
                 }
             }
         } else if (os.equals("Windows")) {
-            File todoDir = new File("C:\\%PROGRAMDATA\\todo-list\\todos\\");  
+            File todoDir = new File("C:\\%PROGRAMDATA%\\todo-list\\todos\\");  
             File[] todos = todoDir.listFiles(); 
             if (todos != null) {
                 for (File child : todos) {
@@ -267,7 +272,7 @@ public class TodoList {
         this.list = this.list
             .stream()
             .filter(it -> !it.getName().equals(item.getName()))
-            .toList();
+            .collect(Collectors.toList());
         writeToFile();
     }
 

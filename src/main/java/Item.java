@@ -5,6 +5,10 @@ import java.time.LocalDate;
  * This class describes what a todo item is and what methods it can use
  *
  * @author Alejandro Rosario
+ * @author Victor Rahman
+ * @author Sonia Vetter
+ * @author Nora Peters
+ *
  * @version CPSC 240
  */
 public class Item {

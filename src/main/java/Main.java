@@ -18,6 +18,10 @@ import java.util.List;
  * This is the main class of the project
  *
  * @author Alejandro Rosario
+ * @author Victor Rahman
+ * @author Sonia Vetter
+ * @author Nora Peters
+ *
  * @version CPSC 240
  */
 public class Main {
@@ -48,7 +52,7 @@ public class Main {
         options.addOption(createTodoList);
         Option createTodoListWithRandName = new Option("C", "create-unnamed-list", false, "Create an empty todolist with an random name");
         options.addOption(createTodoListWithRandName);
-        Option deleteTodoList = new Option("d", "delete-list", true, "Delete an existing todolist with the corresponding name");
+        Option deleteTodoList = new Option("dl", "delete-list", true, "Delete an existing todolist with the corresponding name");
         deleteTodoList.setArgs(1);
         options.addOption(deleteTodoList);
         Option markAsDone = new Option("md", "mark-as-done", true, "Mark an item as done in a todolist");
@@ -81,7 +85,6 @@ public class Main {
             g.start();
         } else if (cmd.hasOption(addItem)) {
             String[] opts = cmd.getOptionValues("a");
-            System.out.println(opts[0]);
             TodoList todo = new TodoList(opts[0]);
             Item it = new Item(opts[1], LocalDate.parse(opts[2]));
             if (!it.isDue()) {
@@ -112,7 +115,7 @@ public class Main {
                 e.printStackTrace();
                 System.exit(1);
             }
-        } else if (cmd.hasOption("md")) {
+        } else if (cmd.hasOption(markAsDone)) {
             String[] opts = cmd.getOptionValues("md");
             String todoListName = opts[0];
             String itemName = opts[1];
@@ -124,7 +127,7 @@ public class Main {
                 }
             }
             todo.writeToFile();
-        } else if (cmd.hasOption("mi")) {
+        } else if (cmd.hasOption(markAsIncomplete)) {
             String[] opts = cmd.getOptionValues("mi");
             String todoListName = opts[0];
             String itemName = opts[1];
@@ -136,7 +139,7 @@ public class Main {
                 }
             }
             todo.writeToFile();
-        } else if (cmd.hasOption("mo")) {
+        } else if (cmd.hasOption(markAsOverdue)) {
             String[] opts = cmd.getOptionValues("mo");
             String todoListName = opts[0];
             String itemName = opts[1];

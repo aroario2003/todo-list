@@ -5,7 +5,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+
+import java.time.LocalDate;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -23,6 +26,10 @@ import javax.swing.DefaultListModel;
  * todolists
  *
  * @author Alejandro Rosario
+ * @author Victor Rahman
+ * @author Sonia Vetter
+ * @author Nora Peters
+ *
  * @version CPSC 240
  */
 public class GUI {
@@ -51,28 +58,152 @@ public class GUI {
         contentPane.add(pane);
 
         JFrame itemsWin = new JFrame("Items (todo-gui)");
-        itemsWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel itemsWinContent = new JPanel();
         itemsWinContent.setLayout(new BoxLayout(itemsWinContent, BoxLayout.Y_AXIS));
 
         //Button to go into a list and view the items in the list
         JButton intoListBtn = new JButton("Into list");
+        intoListBtn.setPreferredSize(new Dimension(130, 20));
         intoListBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TodoList selList = new TodoList(listOfTodoList.getSelectedValue());
                 List<Item> itemsList = selList.getItems();
-                if (!itemsList.isEmpty()) {
-                    DefaultListModel<Item> itemsListModel = new DefaultListModel<Item>();
-                    itemsListModel.addAll((ArrayList<Item>)itemsList);
-                    JList<Item> itemsGlist = new JList<Item>(itemsListModel);
+                DefaultListModel<Item> itemsListModel = new DefaultListModel<Item>();
+                itemsListModel.addAll((ArrayList<Item>)itemsList);
+                JList<Item> itemsGlist = new JList<Item>(itemsListModel);
+                JScrollPane itemsScroll = new JScrollPane(itemsGlist);
+                itemsGlist.setPreferredSize(new Dimension(300, 300));
 
-                    itemsWinContent.add(itemsGlist); 
+                JButton markDone = new JButton("Mark done");
+                markDone.setPreferredSize(new Dimension(150, 20));
+                markDone.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        Item item = itemsGlist.getSelectedValue();
+                        itemsListModel.removeElement(item);
+                        item.markAsDone();
+                        selList.writeToFile();
+                        itemsListModel.addElement(item);
+                    }
+                });
 
-                    itemsWin.add(itemsWinContent);
-                    itemsWin.pack();
-                    itemsWin.setVisible(true);
-                }
+                JButton markIncomplete = new JButton("Mark incomplete");
+                markIncomplete.setPreferredSize(new Dimension(170, 20));
+                markIncomplete.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        Item item = itemsGlist.getSelectedValue();
+                        itemsListModel.removeElement(item);
+                        item.markAsIncomplete();
+                        selList.writeToFile();
+                        itemsListModel.addElement(item);
+                    }
+                });
+
+                JButton markOverdue = new JButton("Mark overdue");
+                markOverdue.setPreferredSize(new Dimension(160, 20));
+                markOverdue.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        Item item = itemsGlist.getSelectedValue();
+                        itemsListModel.removeElement(item);
+                        item.markAsOverdue();
+                        selList.writeToFile();
+                        itemsListModel.addElement(item);
+                    }
+                });
+
+                JButton addItem = new JButton("Add item");
+                addItem.setPreferredSize(new Dimension(130, 20));
+                addItem.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        JFrame addItemWin = new JFrame("Add item (todo-gui)");
+                        JPanel addItemPanel = new JPanel();
+                        addItemPanel.setLayout(new BoxLayout(addItemPanel, BoxLayout.Y_AXIS));
+
+                        JLabel itemNameLabel = new JLabel("Item name:");
+                        JTextField nameField = new JTextField();
+                        JLabel itemDueDateLabel = new JLabel("Item Due Date (YYYY-MM-DD):");
+                        JTextField itemDueDateField = new JTextField();
+
+                        JButton okBtn = new JButton("Ok");
+                        okBtn.setPreferredSize(new Dimension(100, 20));
+                        okBtn.addActionListener(new ActionListener() {
+                           @Override
+                           public void actionPerformed(ActionEvent e) {
+                                Item it = new Item(nameField.getText(), LocalDate.parse(itemDueDateField.getText()));
+                                it.markAsIncomplete();
+                                selList.addItem(it);
+                                itemsListModel.addElement(it);
+                                addItemWin.dispatchEvent(new WindowEvent(addItemWin, WindowEvent.WINDOW_CLOSING));
+                               }
+                            });
+
+                        JButton cancelBtn = new JButton("Cancel");
+                        cancelBtn.setPreferredSize(new Dimension(120, 20));
+                        cancelBtn.addActionListener(new ActionListener() {
+                           @Override
+                           public void actionPerformed(ActionEvent e) {
+                                addItemWin.dispatchEvent(new WindowEvent(addItemWin, WindowEvent.WINDOW_CLOSING));
+                           }
+                        });
+
+                        JPanel addItemBtnPanel = new JPanel();
+                        addItemBtnPanel.setLayout(new BoxLayout(addItemBtnPanel, BoxLayout.X_AXIS));
+                        addItemBtnPanel.add(okBtn);
+                        addItemBtnPanel.add(cancelBtn);
+
+                        addItemPanel.add(itemNameLabel);
+                        addItemPanel.add(nameField);
+                        addItemPanel.add(itemDueDateLabel);
+                        addItemPanel.add(itemDueDateField);
+                        addItemPanel.add(addItemBtnPanel);
+
+                        addItemWin.add(addItemPanel);
+                        addItemWin.pack();
+                        addItemWin.setVisible(true);
+                    }
+                });
+
+                JButton deleteItem = new JButton("Delete item");
+                deleteItem.setPreferredSize(new Dimension(140, 20));
+                deleteItem.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        Item item = itemsGlist.getSelectedValue();
+                        selList.removeItem(item);
+                        selList.writeToFile();
+                        itemsListModel.removeElement(item);
+                    }
+                });
+
+                JButton cancelBtn = new JButton("Cancel");
+                cancelBtn.setPreferredSize(new Dimension(120, 20));
+                cancelBtn.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        itemsWin.dispatchEvent(new WindowEvent(itemsWin, WindowEvent.WINDOW_CLOSING));
+                    }
+                });
+
+                JPanel itemsBtnPanel = new JPanel();
+                itemsBtnPanel.setLayout(new BoxLayout(itemsBtnPanel, BoxLayout.X_AXIS));
+
+                itemsBtnPanel.add(addItem);
+                itemsBtnPanel.add(deleteItem);
+                itemsBtnPanel.add(markDone);
+                itemsBtnPanel.add(markIncomplete);
+                itemsBtnPanel.add(markOverdue);
+                itemsBtnPanel.add(cancelBtn);
+
+                itemsWinContent.add(itemsScroll); 
+                itemsWinContent.add(itemsBtnPanel);
+
+                itemsWin.add(itemsWinContent);
+                itemsWin.pack();
+                itemsWin.setVisible(true);
             }
         });
         

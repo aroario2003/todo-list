@@ -38,6 +38,10 @@ import javax.mail.internet.MimeMultipart;
  * which will check due dates of items in todo lists on an interval
  *
  * @author Alejandro Rosario
+ * @author Victor Rahman
+ * @author Sonia Vetter
+ * @author Nora Peters
+ *
  * @version CPSC 240
  */
 public class Daemon {
@@ -52,7 +56,7 @@ public class Daemon {
      * a specified interval
      */
     public void daemon() {
-      ScheduledExecutorService daemon = Executors.newScheduledThreadPool(1); 
+      ScheduledExecutorService daemon = Executors.newScheduledThreadPool(1);
       DaemonTask daemonTask = new DaemonTask();
       Config conf = new Config(false);
       int interval = conf.calculateInterval();
