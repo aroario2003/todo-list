@@ -1,12 +1,4 @@
-package com.project.todolist;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import java.time.LocalDate;
 
@@ -15,11 +7,11 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.ArrayList;
-import javax.swing.JPanel;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
+
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
 
 /**
  * This class will create and start a graphical user interface to interact with
@@ -45,7 +37,7 @@ public class GUI {
         DefaultListModel<String> todoListModel = new DefaultListModel<String>();
         todoListModel.addAll(todoListNames);
         JFrame window = new JFrame("todo-gui");
-        window.setPreferredSize(new Dimension(400, 200));
+        window.setPreferredSize(new Dimension(400, 290));
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
@@ -57,9 +49,7 @@ public class GUI {
         listOfTodoList.setPreferredSize(listDimension);
         contentPane.add(pane);
 
-        JFrame itemsWin = new JFrame("Items (todo-gui)");
-        JPanel itemsWinContent = new JPanel();
-        itemsWinContent.setLayout(new BoxLayout(itemsWinContent, BoxLayout.Y_AXIS));
+
 
         //Button to go into a list and view the items in the list
         JButton intoListBtn = new JButton("Into list");
@@ -67,7 +57,14 @@ public class GUI {
         intoListBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TodoList selList = new TodoList(listOfTodoList.getSelectedValue());
+                String todolistName = listOfTodoList.getSelectedValue();
+                if(todolistName == null){
+                    todolistName = "defaultlist";
+                }
+                JFrame itemsWin = new JFrame("Items (todo-gui) " + todolistName);
+                JPanel itemsWinContent = new JPanel();
+                itemsWinContent.setLayout(new BoxLayout(itemsWinContent, BoxLayout.Y_AXIS));
+                TodoList selList = new TodoList(todolistName);
                 List<Item> itemsList = selList.getItems();
                 DefaultListModel<Item> itemsListModel = new DefaultListModel<Item>();
                 itemsListModel.addAll((ArrayList<Item>)itemsList);
@@ -133,12 +130,18 @@ public class GUI {
                         okBtn.addActionListener(new ActionListener() {
                            @Override
                            public void actionPerformed(ActionEvent e) {
-                                Item it = new Item(nameField.getText(), LocalDate.parse(itemDueDateField.getText()));
-                                it.markAsIncomplete();
-                                selList.addItem(it);
-                                itemsListModel.addElement(it);
-                                addItemWin.dispatchEvent(new WindowEvent(addItemWin, WindowEvent.WINDOW_CLOSING));
-                               }
+                                try {
+                                    Item it = new Item(nameField.getText(), LocalDate.parse(itemDueDateField.getText()));
+                                    it.markAsIncomplete();
+                                    selList.addItem(it);
+                                    itemsListModel.addElement(it);
+                                    addItemWin.dispatchEvent(new WindowEvent(addItemWin, WindowEvent.WINDOW_CLOSING));
+                                }
+                                catch (DateTimeParseException ex){
+                                          JOptionPane.showMessageDialog(null, "Type in a valid date.","wrong date format",
+                                                ERROR_MESSAGE);
+                                }
+                           }
                             });
 
                         JButton cancelBtn = new JButton("Cancel");

@@ -1,4 +1,3 @@
-package com.project.todolist;
 import java.time.LocalDate;
 
 /**
@@ -34,8 +33,7 @@ public class Item {
      * This method will mark an item as done 
      */
     public void markAsDone() {
-        this.done = "";
-
+        this.done = "✓";
     }
 
     /**
@@ -49,7 +47,7 @@ public class Item {
      * This method will mark an item as overdue
      */
     public void markAsOverdue() {
-        this.done = "󰃰";
+        this.done = "|!|";
     }   
 
     /**
@@ -65,11 +63,11 @@ public class Item {
      * This method will set the item state based on whether it is done, incomplete or overdue
      */
     public void setItemState() {
-        if (this.done.equals("")) {
+        if (this.done.equals("✓")) {
             this.itemState = ItemState.Done;
         } else if (this.done.equals("")) {
             this.itemState = ItemState.Incomplete;
-        } else if (this.done.equals("󰃰")) {
+        } else if (this.done.equals("|!|")) {
             this.itemState = ItemState.Overdue;
         }
     }

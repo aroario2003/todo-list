@@ -1,5 +1,3 @@
-package com.project.todolist;
-
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;

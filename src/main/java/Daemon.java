@@ -1,5 +1,3 @@
-package com.project.todolist;
-
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.Date;

@@ -1,5 +1,3 @@
-package com.project.todolist;
-
 /**
  * This enum represents possible item states
  *
