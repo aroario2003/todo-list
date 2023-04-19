@@ -320,6 +320,11 @@ public class TodoList {
         return itemsList;
     }
 
+    /**
+     * This method gets the name of the todolist created or existing
+     *
+     * @return the string which represents the name of the todolist
+     */
     public String getName() {
         return this.name;
     }
