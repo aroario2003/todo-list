@@ -321,8 +321,16 @@ public class TodoList {
      * @return the ArrayList of names of the todolists in the todolist directory
      */
     public static ArrayList<String> getTodoLists() {
+        String os = System.getProperty("os.name");
         String homeDir = System.getProperty("user.home");
-        String path = homeDir + "/.local/share/todolists/";
+        
+        String path = "";
+        
+        if (os.contains("Linux")) {
+            path = homeDir + "/.local/share/todolists/";
+        } else if (os.contains("Windows")) {
+            path = "C:\\%PROGRAMDATA%\\todo-list\\todos";
+        }
         ArrayList<String> todoListNames = new ArrayList<>();
         File todoListPath = new File(path);
         File[] todoLists = todoListPath.listFiles();
