@@ -90,6 +90,14 @@ In order to render the html, you must start a local web server:
 
 If you are running intellij, it will pull up the file in a browser with the file:// protocol.
 
+# Notes on File Locations
+
+* On windows the todo lists are stored in `C:\%PROGRAMDATA%\todo-list\todos\` and the config is stored in `C:\%PROGRAMDATA%\todo-list\config\`
+
+* On Linux the todo lists are stored in `~/.local/share/todolists/` and the config file is stored in `~/.config/todo-list/` 
+
+If you try to start the daemon without a config file, the program will create one and tell you to update it with updated information.
+
 # Command Line Arguments
     
 | Argument                              | Function                                                                      |
