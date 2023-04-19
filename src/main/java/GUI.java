@@ -8,19 +8,22 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.JPanel;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+
 import java.util.List;
 import java.util.ArrayList;
-import javax.swing.JPanel;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
+
 
 /**
  * This class will create and start a graphical user interface to interact with
@@ -235,7 +238,11 @@ public class GUI {
                 okBtn.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        String name = nameInput.getText();
+                        String name;
+                        name = nameInput.getText();
+                        if (name.equals("")) {
+                           name = new TodoList().getName();
+                        }
                         TodoList list = new TodoList(name);
                         todoListModel.addElement(name);
                         popupWin.dispatchEvent(new WindowEvent(popupWin, WindowEvent.WINDOW_CLOSING));

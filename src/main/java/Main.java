@@ -100,7 +100,7 @@ public class Main {
         } else if (cmd.hasOption(createTodoListWithRandName)) {
             TodoList todo = new TodoList();
         } else if (cmd.hasOption(deleteTodoList)) {
-            String listName = cmd.getOptionValue("d");
+            String listName = cmd.getOptionValue("dl");
             TodoList todo = new TodoList(listName);
             todo.deleteTodoList();
         } else if (cmd.hasOption(deleteItem)) {
