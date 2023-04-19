@@ -98,6 +98,17 @@ If you are running intellij, it will pull up the file in a browser with the file
 
 If you try to start the daemon without a config file, the program will create one and tell you to update it with updated information.
 
+# Notes on starting the daemon
+
+* On Linux in order to make the daemon fully run in the background you must use this command
+
+`setsid -f java -jar name-of-jar.jar`
+
+This will detach the java process from its parent and fork it into the background. 
+You may also provide arguments to the jar after that initial command.
+
+* On windows the daemon cannot be fully detached from its parent process.
+
 # Command Line Arguments
     
 | Argument                              | Function                                                                      |
