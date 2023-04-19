@@ -320,6 +320,10 @@ public class TodoList {
         return itemsList;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     /**
      * This method will walk the directory where all todolists must be stored and 
      * get all of the names

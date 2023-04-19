@@ -4,12 +4,13 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 
 import java.time.LocalDate;
-
+import java.time.format.DateTimeParseException;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -45,7 +46,7 @@ public class GUI {
         DefaultListModel<String> todoListModel = new DefaultListModel<String>();
         todoListModel.addAll(todoListNames);
         JFrame window = new JFrame("todo-gui");
-        window.setPreferredSize(new Dimension(400, 200));
+        window.setPreferredSize(new Dimension(400, 290));
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
@@ -67,7 +68,11 @@ public class GUI {
         intoListBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TodoList selList = new TodoList(listOfTodoList.getSelectedValue());
+                String selListName = listOfTodoList.getSelectedValue();
+                if (selListName == null) {
+                    selListName = new TodoList().getName();  
+                }
+                TodoList selList = new TodoList(selListName);
                 List<Item> itemsList = selList.getItems();
                 DefaultListModel<Item> itemsListModel = new DefaultListModel<Item>();
                 itemsListModel.addAll((ArrayList<Item>)itemsList);
@@ -133,13 +138,22 @@ public class GUI {
                         okBtn.addActionListener(new ActionListener() {
                            @Override
                            public void actionPerformed(ActionEvent e) {
-                                Item it = new Item(nameField.getText(), LocalDate.parse(itemDueDateField.getText()));
-                                itemsListModel.addElement(it);
-                                it.markAsIncomplete();
-                                selList.addItem(it);
-                                addItemWin.dispatchEvent(new WindowEvent(addItemWin, WindowEvent.WINDOW_CLOSING));
+                               try {
+                                    Item it = new Item(nameField.getText(), LocalDate.parse(itemDueDateField.getText()));
+                                    itemsListModel.addElement(it);
+                                    it.markAsIncomplete();
+                                    selList.addItem(it);
+                                    addItemWin.dispatchEvent(new WindowEvent(addItemWin, WindowEvent.WINDOW_CLOSING));
+                               } catch (DateTimeParseException ex) {
+                                    JOptionPane.showMessageDialog(
+                                           null, 
+                                           "The date entered is in the wrong format", 
+                                           "please use YYYY-MM-DD", 
+                                           JOptionPane.ERROR_MESSAGE
+                                   );
                                }
-                            });
+                            }
+                        });
 
                         JButton cancelBtn = new JButton("Cancel");
                         cancelBtn.setPreferredSize(new Dimension(120, 20));
